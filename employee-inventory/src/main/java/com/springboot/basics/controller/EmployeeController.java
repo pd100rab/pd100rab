@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.springboot.basics.model.Employee;
 import com.springboot.basics.model.FileDB;
 import com.springboot.basics.model.ResponseFile;
 import com.springboot.basics.service.EmployeeService;
@@ -35,13 +36,20 @@ public class EmployeeController {
 		if (fileDB.isPresent()) {
 			return ResponseEntity.ok().body(fileDB);
 		} else {
-			return ResponseEntity.ok().body("File not found");
+			return ResponseEntity.noContent().build();
 		}
 
 	}
 
+	@GetMapping("/fetchAllEmployees")
+	public ResponseEntity<List<Employee>> fetchAllEmployees() {
+		final List<Employee> employeeList = this.employeeService.fetchAllEmployees();
+		return ResponseEntity.ok().body(employeeList);
+
+	}
+
 	@PostMapping("/employee")
-	public ResponseEntity<?> uploadEmployeeInfo(@RequestParam("file") final MultipartFile file) {
+	public ResponseEntity<ResponseFile> uploadEmployeeInfo(@RequestParam("file") final MultipartFile file) {
 
 		final FileDB fileDB = this.fileService.uploadFile(file);
 
