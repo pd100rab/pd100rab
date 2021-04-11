@@ -1,6 +1,7 @@
 package com.springboot.basics.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -22,11 +23,6 @@ public class EmployeeService {
 
 	@Autowired
 	FileDao fileDao;
-
-	public List<Employee> getStatus() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Transactional
 	public ResponseFile processEmployeeData(final String fileId, final List<String> employeeList) {
@@ -98,6 +94,25 @@ public class EmployeeService {
 
 	public List<Employee> fetchAllEmployees() {
 		return this.employeeDao.fetchAllEmployees();
+	}
+
+	public Optional<Employee> findEmployeeById(final long id) {
+		return this.employeeDao.findEmployeeById(id);
+	}
+
+	public Employee updateEmployee(final Employee oldEmpData, final Employee newEmpData) {
+		oldEmpData.setAge(newEmpData.getAge());
+		oldEmpData.setfName(newEmpData.getfName());
+		oldEmpData.setlName(newEmpData.getlName());
+		return this.employeeDao.updateEmployee(newEmpData);
+	}
+
+	public void deleteById(final long id) {
+		this.employeeDao.deleteById(id);
+	}
+
+	public void deleteAll() {
+		this.employeeDao.deleteAll();
 	}
 
 }

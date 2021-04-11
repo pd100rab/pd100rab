@@ -47,7 +47,7 @@ public class FileService {
 		} catch (final Exception e) {
 			e.printStackTrace();
 			throw new FileStorageException(
-					"Could not store file " + file.getOriginalFilename() + ". Please try again!");
+					"Unable to store file " + file.getOriginalFilename() + ". Please try again!");
 		}
 	}
 

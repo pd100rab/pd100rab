@@ -1,0 +1,29 @@
+<div class="login">
+  <h2 class="login-header">Login Form </h2>
+  <form [formGroup]="loginForm" class="login-container" (ngSubmit)="doLogin()">
+
+    <p [ngClass]="{ 'has-error': isSubmitted && formControls.email.errors }">
+      <input type="email" placeholder="Email" formControlName="email">
+    </p>
+
+    <div *ngIf="isSubmitted && formControls.email.errors" class="help-block">
+      <div *ngIf="formControls.email.errors.required">Email is required</div>
+    </div>
+
+    <p [ngClass]="{ 'has-error': isSubmitted && formControls.password.errors }">
+      <input type="password" placeholder="Password" formControlName="password">
+    </p>
+
+    <div *ngIf="isSubmitted && formControls.password.errors" class="help-block">
+      <div *ngIf="formControls.password.errors.required">Password is required</div>
+    </div>
+
+    <div *ngIf="isSubmitted && formControls.password.errors?.minlength" class="help-block">
+      <div *ngIf="formControls.password.errors.required">Password  must be at least 6 characters long.</div>
+    </div>
+
+    <p>
+      <input type="submit" value="Log in"  />
+    </p>
+  </form>
+</div>

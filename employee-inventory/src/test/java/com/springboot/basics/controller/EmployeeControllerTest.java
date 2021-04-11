@@ -1,6 +1,7 @@
 package com.springboot.basics.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -78,5 +80,31 @@ public class EmployeeControllerTest {
 		final ResponseEntity<ResponseFile> response = this.employeeController.uploadEmployeeInfo(file);
 		assertEquals("http://localhost/api/status/", response.getBody().getUrl());
 
+	}
+
+	@Test
+	public void updateEmployee() {
+		final Employee e1 = new Employee("Maria", "Black", 24);
+		final Employee e2 = new Employee("Joe", "Root", 26);
+		final Employee e3 = new Employee("Maria", "White", 24);
+		final Optional<Employee> oldEmpData = Optional.of(e1);
+		when(this.employeeService.findEmployeeById(2)).thenReturn(oldEmpData);
+		when(this.employeeService.updateEmployee(e1, e3)).thenReturn(e3);
+		final ResponseEntity<Employee> response = this.employeeController.updateEmployee(2, e3);
+		assertEquals("White", response.getBody().getlName());
+	}
+
+	@Test
+	public void deleteEmployee() {
+		doNothing().when(this.employeeService).deleteById(2);
+		final ResponseEntity<HttpStatus> response = this.employeeController.deleteEmployee(2);
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+	}
+
+	@Test
+	public void deleteAllEmployee() {
+		doNothing().when(this.employeeService).deleteAll();
+		final ResponseEntity<HttpStatus> response = this.employeeController.deleteAllEmployee();
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
 }
