@@ -25,7 +25,7 @@ import com.springboot.basics.utils.UploadStatus;
 @Service
 public class FileService {
 
-	@Value("${app.upload.dir:${user.home}}")
+	@Value("${user.home}")
 	public String uploadDirectory;
 
 	@Autowired
